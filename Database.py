@@ -1,3 +1,9 @@
+"""
+@file Database.py
+@brief Class object to abstract communication using either mariadb and mysql.connector
+@author Jacob Taylor Cassady jacobtaylorcassady@outlook.com
+"""
+from __future__ import annotations
 from json import load
 from os import getcwd, sep
 from utilities.Logger import Logger
@@ -8,7 +14,7 @@ import mysql.connector
 
 
 class Database(object):
-    def __init__(self, database_description_file_path: str, sql_type: Enum) -> None:
+    def __init__(self, database_description_file_path: str, sql_type: Database.SQLTypes) -> None:
         with open(file=database_description_file_path) as database_description_file:
             database_description = load(fp=database_description_file)
         self.user = database_description['user']
