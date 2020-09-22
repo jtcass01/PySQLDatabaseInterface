@@ -38,8 +38,7 @@ class Database(object):
             else:
                 sql_statement += attribute_key + " " + attribute_type + ",\n"
 
-        connection = self.create_connection()
-        connection.close()
+        self.execute_query(query=sql_statement)
 
     def list_tables(self) -> Union[str, None]:
         return self.execute_query(query="SHOW TABLES;")
@@ -64,6 +63,7 @@ class Database(object):
             Logger.console_log(message="Connection test with " + self.database + " located at " + self.host
                                        + " was a success",
                                status=Logger.LogStatus.SUCCESS)
+            test_connection.close()
             return True
         except self.sql_type.value.Error as err:
             Logger.console_log(message="Unable to establish connection with database " + self.database + ". Error ["
@@ -80,4 +80,4 @@ if __name__ == "__main__":
     test_db = Database(database_description_file_path=getcwd() + sep + "DatabaseKeys" + sep + "JacobCassadyDotCom.json",
                        sql_type=Database.SQLTypes.MYSQL)
     test_db.connection_test()
-    print(test_db.execute_query(query="SELECT school FROM TRANSCRIPT;"))
+    print(test_db.list_entries_in_table(table_name="DOCUMENT"))
